@@ -25,7 +25,7 @@
   .heart-icon{color:var(--gold);font-size:1.2rem;}
 
   #syncIndicator{display:flex;align-items:center;gap:6px;font-size:0.72rem;opacity:0.9;padding:4px 12px;border-radius:50px;background:rgba(255,255,255,0.12);white-space:nowrap;}
-  #syncDot{width:8px;height:8px;border-radius:50%;background:var(--gold);transition:background 0.3s;}
+  #syncDot{width:8px;height:8px; border-radius:50%;background:var(--gold);transition:background 0.3s;}
   #syncDot.syncing{background:#f39c12;animation:pulse 0.8s infinite;}
   #syncDot.ok{background:#27ae60;}
   #syncDot.err{background:#e74c3c;}
@@ -514,6 +514,8 @@ function renderGuests() {
       const initials = guest.name.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
       const roleTag = (guest.role==='padrinho'||guest.role==='madrinha')
         ? `<span class="tag tag-padrinho">💍 ${capFirst(guest.role)}</span>`
+          : (guest.role==='dama'||guest.role==='dama')
+        ? `<span class="tag tag-dama"> ${capFirst(guest.role)}</span>`
         : (guest.role==='pai'||guest.role==='mae')
         ? `<span class="tag tag-pai">👨‍👩‍👧 ${capFirst(guest.role)}</span>` : '';
       html += `<div class="guest-row" id="guest-${guest.id}">
