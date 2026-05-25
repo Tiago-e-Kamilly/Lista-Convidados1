@@ -23,216 +23,65 @@
     --radius: 14px;
     --radius-sm: 8px;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ─── HEADER ─── */
-  header {
-    background: var(--marsala);
-    color: var(--white);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 20px rgba(107,39,55,0.3);
-  }
-  .header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+  header { background: var(--marsala); color: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(107,39,55,0.3); }
+  .header-inner { max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .header-brand { display: flex; align-items: center; gap: 12px; }
-  .header-brand h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 300;
-    letter-spacing: 1px;
-    line-height: 1.1;
-  }
+  .header-brand h1 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 1px; line-height: 1.1; }
   .header-brand span { color: var(--gold-light); font-style: italic; }
-  .header-brand small {
-    font-size: 0.68rem;
-    opacity: 0.7;
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 1px;
-  }
+  .header-brand small { font-size: 0.68rem; opacity: 0.7; display: block; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
   .heart-icon { color: var(--gold); font-size: 1.2rem; }
 
+  #syncIndicator { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; opacity: 0.9; padding: 4px 12px; border-radius: 50px; background: rgba(255,255,255,0.12); white-space: nowrap; }
+  #syncDot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); transition: background 0.3s; }
+  #syncDot.syncing { background: #f39c12; animation: pulse 0.8s infinite; }
+  #syncDot.ok { background: #27ae60; }
+  #syncDot.err { background: #e74c3c; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
   .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  .btn {
-    padding: 8px 16px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    white-space: nowrap;
-    letter-spacing: 0.3px;
-  }
+  .btn { padding: 8px 16px; border-radius: 50px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; white-space: nowrap; }
   .btn-gold { background: var(--gold); color: var(--dark); }
   .btn-gold:hover { background: #b8935a; transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
   .btn-outline:hover { background: rgba(255,255,255,0.1); }
-  .btn-red { background: #e74c3c; color: var(--white); }
   .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
   .btn-marsala { background: var(--marsala); color: var(--white); }
   .btn-marsala:hover { background: var(--marsala-light); }
-  .btn-green { background: #27ae60; color: var(--white); }
-  .btn-green:hover { background: #219a52; }
 
-  /* ─── STATS BAR ─── */
-  .stats-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-light);
-    padding: 12px 24px;
-    overflow-x: auto;
-  }
-  .stats-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    min-width: max-content;
-  }
+  .stats-bar { background: var(--white); border-bottom: 1px solid var(--gray-light); padding: 12px 24px; overflow-x: auto; }
+  .stats-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 20px; align-items: center; min-width: max-content; }
   .stat { display: flex; align-items: center; gap: 8px; }
-  .stat-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .stat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .stat-label { font-size: 0.78rem; color: var(--gray); }
   .stat-value { font-size: 0.9rem; font-weight: 600; color: var(--dark); }
   .stat-divider { width: 1px; height: 24px; background: var(--gray-light); }
 
-  /* ─── MAIN LAYOUT ─── */
   .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
 
-  /* ─── FILTER BAR ─── */
-  .filter-bar {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+  .filter-bar { background: var(--white); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px; box-shadow: var(--shadow); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
   .search-wrap { position: relative; flex: 1; min-width: 200px; }
-  .search-wrap input {
-    width: 100%;
-    padding: 10px 16px 10px 38px;
-    border: 1.5px solid var(--gray-light);
-    border-radius: 50px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.2s;
-    background: var(--cream);
-  }
+  .search-wrap input { width: 100%; padding: 10px 16px 10px 38px; border: 1.5px solid var(--gray-light); border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.2s; background: var(--cream); }
   .search-wrap input:focus { border-color: var(--marsala); background: var(--white); }
-  .search-icon {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: var(--gray); font-size: 0.9rem;
-  }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 0.9rem; }
   .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip {
-    padding: 6px 14px;
-    border-radius: 50px;
-    border: 1.5px solid var(--gray-light);
-    background: var(--white);
-    font-size: 0.78rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
+  .chip { padding: 6px 14px; border-radius: 50px; border: 1.5px solid var(--gray-light); background: var(--white); font-size: 0.78rem; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
   .chip:hover { border-color: var(--marsala); color: var(--marsala); }
   .chip.active { background: var(--marsala); color: var(--white); border-color: var(--marsala); }
 
-  /* ─── FAMILY GROUPS ─── */
-  .family-group {
-    background: var(--white);
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    border: 1.5px solid transparent;
-    transition: border-color 0.2s;
-  }
+  .family-group { background: var(--white); border-radius: var(--radius); margin-bottom: 16px; box-shadow: var(--shadow); overflow: hidden; border: 1.5px solid transparent; transition: border-color 0.2s; }
   .family-group:hover { border-color: var(--marsala-mid); }
   .family-group.expanded { border-color: var(--marsala-mid); }
 
-  .family-header {
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    background: linear-gradient(135deg, var(--marsala-pale), var(--white));
-    user-select: none;
-    transition: background 0.2s;
-  }
+  .family-header { padding: 14px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; background: linear-gradient(135deg, var(--marsala-pale), var(--white)); user-select: none; transition: background 0.2s; }
   .family-header:hover { background: linear-gradient(135deg, #f0dfe3, var(--white)); }
-  .family-toggle {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--marsala);
-    color: var(--white);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem;
-    flex-shrink: 0;
-    transition: transform 0.3s;
-  }
+  .family-toggle { width: 22px; height: 22px; border-radius: 50%; background: var(--marsala); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; transition: transform 0.3s; }
   .family-group.expanded .family-toggle { transform: rotate(180deg); }
-  .family-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--marsala);
-    flex: 1;
-  }
-  .family-name-input {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--marsala);
-    border: none;
-    background: transparent;
-    border-bottom: 1px dashed var(--marsala-mid);
-    outline: none;
-    width: 200px;
-    padding: 0 4px;
-  }
+  .family-name-input { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--marsala); border: none; background: transparent; border-bottom: 1px dashed var(--marsala-mid); outline: none; width: 200px; padding: 0 4px; }
   .family-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-  .badge {
-    padding: 2px 10px;
-    border-radius: 50px;
-    font-size: 0.7rem;
-    font-weight: 500;
-  }
+  .badge { padding: 2px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 500; }
   .badge-total { background: var(--marsala-pale); color: var(--marsala); }
   .badge-confirmed { background: #d4edda; color: #155724; }
   .badge-invited { background: #d1ecf1; color: #0c5460; }
@@ -240,328 +89,123 @@
 
   .guests-list { border-top: 1px solid var(--gray-light); }
 
-  /* ─── GUEST ROW ─── */
-  .guest-row {
-    padding: 12px 20px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-    align-items: center;
-    border-bottom: 1px solid var(--gray-light);
-    transition: background 0.15s;
-  }
+  .guest-row { padding: 12px 20px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; border-bottom: 1px solid var(--gray-light); transition: background 0.15s; }
   .guest-row:last-child { border-bottom: none; }
   .guest-row:hover { background: var(--cream); }
 
   .guest-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .guest-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--marsala-pale);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    color: var(--marsala);
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
+  .guest-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--marsala-pale); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--marsala); font-size: 1rem; flex-shrink: 0; }
   .guest-info { flex: 1; min-width: 120px; }
-  .guest-name {
-    font-size: 0.92rem;
-    font-weight: 500;
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .guest-name-input {
-    font-size: 0.92rem;
-    font-weight: 500;
-    border: none;
-    border-bottom: 1px dashed var(--marsala-mid);
-    outline: none;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    padding: 0 2px;
-    min-width: 150px;
-    color: var(--dark);
-  }
-  .guest-role { font-size: 0.7rem; color: var(--gray); margin-top: 1px; }
-  .tag {
-    font-size: 0.64rem;
-    padding: 2px 8px;
-    border-radius: 50px;
-    font-weight: 500;
-    white-space: nowrap;
-  }
+  .guest-name { font-size: 0.92rem; font-weight: 500; color: var(--dark); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .guest-name-input { font-size: 0.92rem; font-weight: 500; border: none; border-bottom: 1px dashed var(--marsala-mid); outline: none; background: transparent; font-family: 'DM Sans', sans-serif; padding: 0 2px; min-width: 150px; color: var(--dark); }
+  .tag { font-size: 0.64rem; padding: 2px 8px; border-radius: 50px; font-weight: 500; white-space: nowrap; }
   .tag-padrinho { background: #fff3cd; color: #856404; }
   .tag-pai { background: #cfe2ff; color: #084298; }
 
   .guest-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 
-  /* Toggle switches */
   .toggle-wrap { display: flex; align-items: center; gap: 5px; }
   .toggle-label { font-size: 0.7rem; color: var(--gray); white-space: nowrap; }
-  .toggle {
-    position: relative; width: 36px; height: 20px; flex-shrink: 0;
-  }
+  .toggle { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
   .toggle input { opacity: 0; width: 0; height: 0; }
-  .toggle-slider {
-    position: absolute; cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--gray-light);
-    border-radius: 20px;
-    transition: 0.25s;
-  }
-  .toggle-slider:before {
-    content: '';
-    position: absolute;
-    height: 14px; width: 14px;
-    left: 3px; bottom: 3px;
-    background: var(--white);
-    border-radius: 50%;
-    transition: 0.25s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
+  .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--gray-light); border-radius: 20px; transition: 0.25s; }
+  .toggle-slider:before { content: ''; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background: var(--white); border-radius: 50%; transition: 0.25s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .toggle input:checked + .toggle-slider { background: var(--marsala); }
   .toggle input:checked + .toggle-slider:before { transform: translateX(16px); }
   .toggle-confirm input:checked + .toggle-slider { background: #27ae60; }
   .toggle-invite input:checked + .toggle-slider { background: #2980b9; }
 
   .guest-actions { display: flex; gap: 4px; }
-  .icon-btn {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
-    transition: all 0.2s;
-  }
-  .icon-btn-gray { background: var(--gray-light); color: var(--gray); }
-  .icon-btn-gray:hover { background: var(--marsala-pale); color: var(--marsala); }
+  .icon-btn { width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; transition: all 0.2s; }
   .icon-btn-red { background: #fde8e8; color: #c0392b; }
   .icon-btn-red:hover { background: #c0392b; color: var(--white); }
 
-  /* ─── ADD GUEST ROW ─── */
-  .add-guest-row {
-    padding: 10px 20px;
-    background: var(--cream);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .add-guest-input {
-    flex: 1; min-width: 120px;
-    padding: 7px 12px;
-    border: 1.5px solid var(--gray-light);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+  .add-guest-row { padding: 10px 20px; background: var(--cream); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .add-guest-input { flex: 1; min-width: 120px; padding: 7px 12px; border: 1.5px solid var(--gray-light); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
   .add-guest-input:focus { border-color: var(--marsala); }
 
-  /* ─── ADD FAMILY CARD ─── */
-  .add-family-card {
-    background: var(--white);
-    border: 2px dashed var(--marsala-mid);
-    border-radius: var(--radius);
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--marsala);
-    margin-bottom: 16px;
-  }
+  .add-family-card { background: var(--white); border: 2px dashed var(--marsala-mid); border-radius: var(--radius); padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; color: var(--marsala); margin-bottom: 16px; }
   .add-family-card:hover { background: var(--marsala-pale); border-color: var(--marsala); }
   .add-family-card span { font-size: 1.5rem; display: block; margin-bottom: 4px; }
   .add-family-card p { font-size: 0.82rem; }
 
-  /* ─── IMPORT MODAL ─── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(26,18,18,0.6);
-    z-index: 200; align-items: center; justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(4px);
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,18,18,0.6); z-index: 200; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 32px;
-    max-width: 520px; width: 100%;
-    box-shadow: var(--shadow-lg);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    color: var(--marsala);
-    margin-bottom: 6px;
-  }
+  .modal { background: var(--white); border-radius: var(--radius); padding: 32px; max-width: 520px; width: 100%; box-shadow: var(--shadow-lg); max-height: 90vh; overflow-y: auto; }
+  .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--marsala); margin-bottom: 6px; }
   .modal p { font-size: 0.84rem; color: var(--gray); margin-bottom: 20px; }
-  .modal textarea {
-    width: 100%;
-    height: 180px;
-    padding: 12px;
-    border: 1.5px solid var(--gray-light);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    resize: vertical;
-    outline: none;
-    margin-bottom: 8px;
-  }
+  .modal textarea { width: 100%; height: 180px; padding: 12px; border: 1.5px solid var(--gray-light); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; resize: vertical; outline: none; margin-bottom: 8px; }
   .modal textarea:focus { border-color: var(--marsala); }
   .modal-hint { font-size: 0.75rem !important; color: var(--gold) !important; margin-bottom: 16px !important; }
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 
-  /* Gist config */
-  .gist-config {
-    background: var(--marsala-pale);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    margin-bottom: 16px;
-  }
-  .gist-config label { font-size: 0.78rem; font-weight: 600; color: var(--marsala); display: block; margin-bottom: 4px; }
-  .gist-config input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1.5px solid var(--marsala-mid);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    outline: none;
-    margin-bottom: 8px;
-  }
-  .gist-config input:last-of-type { margin-bottom: 0; }
-  .gist-status { font-size: 0.75rem; padding: 6px 10px; border-radius: var(--radius-sm); margin-top: 8px; }
-  .gist-ok { background: #d4edda; color: #155724; }
-  .gist-err { background: #f8d7da; color: #721c24; }
-  .gist-loading { background: var(--gold-light); color: #856404; }
+  .role-select { font-size: 0.75rem; padding: 3px 6px; border: 1.5px solid var(--gray-light); border-radius: var(--radius-sm); outline: none; font-family: 'DM Sans', sans-serif; cursor: pointer; background: var(--white); color: var(--dark); max-width: 110px; }
 
-  /* ─── PRINT ─── */
-  @media print {
-    header, .stats-bar, .filter-bar, .add-family-card,
-    .family-actions, .guest-actions, .add-guest-row,
-    .family-toggle, .icon-btn, .header-actions,
-    .modal-overlay, #importModal, #configModal { display: none !important; }
-    body { background: white; color: black; }
-    .family-group { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
-    .family-header { background: #f5f5f5 !important; }
-    .guests-list { display: block !important; }
-    .guest-row { padding: 8px 16px; }
-    .toggle-wrap .toggle { display: none; }
-    .toggle-wrap::after { content: '☐'; font-size: 1rem; }
-    .container { padding: 0; }
-    h1::after { content: ' — Lista de Convidados'; }
-    .print-checkbox::before { content: '☐ '; }
-  }
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--dark); color: var(--white); padding: 12px 20px; border-radius: var(--radius-sm); font-size: 0.82rem; transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 999; max-width: 300px; }
+  #toast.show { transform: translateY(0); opacity: 1; }
 
-  /* ─── EMPTY STATE ─── */
-  .empty-state {
-    text-align: center; padding: 60px 20px; color: var(--gray);
-  }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
   .empty-state span { font-size: 3rem; display: block; margin-bottom: 12px; }
   .empty-state h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--marsala); margin-bottom: 6px; }
 
-  /* ─── ROLE SELECT ─── */
-  .role-select {
-    font-size: 0.75rem;
-    padding: 3px 6px;
-    border: 1.5px solid var(--gray-light);
-    border-radius: var(--radius-sm);
-    outline: none;
-    font-family: 'DM Sans', sans-serif;
-    cursor: pointer;
-    background: var(--white);
-    color: var(--dark);
-    max-width: 110px;
+  #loadingOverlay { position: fixed; inset: 0; background: rgba(26,18,18,0.7); z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--white); font-family: 'DM Sans', sans-serif; backdrop-filter: blur(4px); }
+  .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loadingOverlay.hidden { display: none; }
+
+  @media print {
+    header, .stats-bar, .filter-bar, .add-family-card,
+    .family-actions, .guest-actions, .add-guest-row,
+    .family-toggle, .icon-btn, .header-actions, .modal-overlay { display: none !important; }
+    body { background: white; }
+    .family-group { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .family-header { background: #f5f5f5 !important; }
+    .container { padding: 0; }
   }
 
-  /* ─── TOAST ─── */
-  #toast {
-    position: fixed; bottom: 24px; right: 24px;
-    background: var(--dark); color: var(--white);
-    padding: 12px 20px; border-radius: var(--radius-sm);
-    font-size: 0.82rem;
-    transform: translateY(80px); opacity: 0;
-    transition: all 0.3s; z-index: 999;
-    max-width: 300px;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-
-  /* ─── RESPONSIVE ─── */
   @media (max-width: 640px) {
     .header-inner { padding: 12px 16px; }
     .header-brand h1 { font-size: 1.2rem; }
     .container { padding: 16px; }
-    .filter-bar { padding: 12px 14px; }
     .guest-row { grid-template-columns: 1fr; gap: 8px; }
     .guest-right { justify-content: flex-start; }
     .toggle-label { display: none; }
     .modal { padding: 20px; }
-    .family-name-input { width: 140px; }
-    .stats-inner { gap: 12px; }
+    #syncIndicator { display: none; }
   }
-
-  /* ─── LOADING OVERLAY ─── */
-  #loadingOverlay {
-    position: fixed; inset: 0;
-    background: rgba(26,18,18,0.7);
-    z-index: 999;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 12px;
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    backdrop-filter: blur(4px);
-  }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #loadingOverlay.hidden { display: none; }
 </style>
 </head>
 <body>
 
 <div id="loadingOverlay">
   <div class="spinner"></div>
-  <p>Carregando lista...</p>
+  <p>Carregando lista da nuvem...</p>
 </div>
 
-<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="header-brand">
-      <span class="heart-icon">♡</span>
+      <span class="heart-icon">&#9825;</span>
       <div>
-        <h1>Kamilly <span>&</span> Tiago</h1>
-        <small>Lista de Convidados · Nov 2027</small>
+        <h1>Kamilly <span>&amp;</span> Tiago</h1>
+        <small>Lista de Convidados &middot; Nov 2027</small>
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-outline" onclick="openConfig()">⚙ Sync</button>
-      <button class="btn btn-outline" onclick="openImport()">⬆ Importar</button>
-      <button class="btn btn-outline" onclick="window.print()">🖨 Imprimir</button>
-      <button class="btn btn-gold" onclick="exportCSV()">⬇ Exportar CSV</button>
+      <div id="syncIndicator">
+        <div id="syncDot"></div>
+        <span id="syncText">Pronto</span>
+      </div>
+      <button class="btn btn-outline" onclick="forceSync()">&#9729; Sincronizar</button>
+      <button class="btn btn-outline" onclick="openImport()">&#11014; Importar</button>
+      <button class="btn btn-outline" onclick="window.print()">&#128424; Imprimir</button>
+      <button class="btn btn-gold" onclick="exportCSV()">&#11015; Exportar CSV</button>
     </div>
   </div>
 </header>
 
-<!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stats-inner" id="statsBar">
+  <div class="stats-inner">
     <div class="stat"><span class="stat-dot" style="background:var(--marsala)"></span><span class="stat-label">Total</span>&nbsp;<span class="stat-value" id="st-total">0</span></div>
     <div class="stat-divider"></div>
     <div class="stat"><span class="stat-dot" style="background:#27ae60"></span><span class="stat-label">Confirmados</span>&nbsp;<span class="stat-value" id="st-confirmed">0</span></div>
@@ -570,208 +214,171 @@
     <div class="stat-divider"></div>
     <div class="stat"><span class="stat-dot" style="background:var(--gold)"></span><span class="stat-label">Padrinhos</span>&nbsp;<span class="stat-value" id="st-padrinhos">0</span></div>
     <div class="stat-divider"></div>
-    <div class="stat"><span class="stat-dot" style="background:#9b59b6"></span><span class="stat-label">Famílias</span>&nbsp;<span class="stat-value" id="st-families">0</span></div>
+    <div class="stat"><span class="stat-dot" style="background:#9b59b6"></span><span class="stat-label">Fam&iacute;lias</span>&nbsp;<span class="stat-value" id="st-families">0</span></div>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="container">
-
-  <!-- FILTER BAR -->
   <div class="filter-bar">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon">&#128269;</span>
       <input type="text" id="searchInput" placeholder="Buscar convidado..." oninput="renderGuests()">
     </div>
     <div class="filter-chips">
-      <button class="chip active" data-filter="all" onclick="setFilter('all',this)">Todos</button>
-      <button class="chip" data-filter="confirmed" onclick="setFilter('confirmed',this)">✓ Confirmados</button>
-      <button class="chip" data-filter="unconfirmed" onclick="setFilter('unconfirmed',this)">⏳ Não confirmados</button>
-      <button class="chip" data-filter="invited" onclick="setFilter('invited',this)">✉ Convite enviado</button>
-      <button class="chip" data-filter="notinvited" onclick="setFilter('notinvited',this)">📭 Sem convite</button>
-      <button class="chip" data-filter="padrinhos" onclick="setFilter('padrinhos',this)">💍 Padrinhos</button>
-      <button class="chip" data-filter="pais" onclick="setFilter('pais',this)">👨‍👩‍👧 Pais</button>
+      <button class="chip active" onclick="setFilter('all',this)">Todos</button>
+      <button class="chip" onclick="setFilter('confirmed',this)">&#10003; Confirmados</button>
+      <button class="chip" onclick="setFilter('unconfirmed',this)">&#9203; N&atilde;o confirmados</button>
+      <button class="chip" onclick="setFilter('invited',this)">&#9993; Convite enviado</button>
+      <button class="chip" onclick="setFilter('notinvited',this)">Sem convite</button>
+      <button class="chip" onclick="setFilter('padrinhos',this)">&#128141; Padrinhos</button>
+      <button class="chip" onclick="setFilter('pais',this)">Pais</button>
     </div>
   </div>
 
-  <!-- GUEST LIST -->
   <div id="guestList"></div>
 
-  <!-- ADD FAMILY -->
   <div class="add-family-card" onclick="addFamily()">
-    <span>＋</span>
-    <p>Adicionar nova família / grupo</p>
+    <span>&#65291;</span>
+    <p>Adicionar nova fam&iacute;lia / grupo</p>
   </div>
-
 </div>
 
 <!-- IMPORT MODAL -->
 <div class="modal-overlay" id="importModal">
   <div class="modal">
     <h2>Importar Convidados</h2>
-    <p>Cole os nomes abaixo — um por linha, ou separados por ponto e vírgula. Todos serão adicionados como uma nova família.</p>
-    <textarea id="importText" placeholder="Ex:
-João Silva
-Maria Silva
-Pedro Silva
-
-Ou: João Silva; Maria Silva; Pedro Silva"></textarea>
-    <p class="modal-hint">💡 Dica: você pode copiar uma coluna inteira do Excel e colar aqui.</p>
+    <p>Cole os nomes abaixo &mdash; um por linha, ou separados por ponto e v&iacute;rgula.</p>
+    <textarea id="importText" placeholder="Ex:&#10;Jo&atilde;o Silva&#10;Maria Silva&#10;Pedro Silva"></textarea>
+    <p class="modal-hint">&#128161; Dica: voc&ecirc; pode copiar uma coluna inteira do Excel e colar aqui.</p>
     <div style="margin-bottom:12px">
-      <label style="font-size:0.8rem;font-weight:600;color:var(--marsala)">Nome do grupo/família:</label><br>
-      <input type="text" id="importFamily" placeholder="Ex: Família Silva" style="margin-top:4px;width:100%;padding:8px 12px;border:1.5px solid var(--gray-light);border-radius:var(--radius-sm);font-size:0.85rem;outline:none;font-family:'DM Sans',sans-serif">
+      <label style="font-size:0.8rem;font-weight:600;color:var(--marsala)">Nome do grupo/fam&iacute;lia:</label><br>
+      <input type="text" id="importFamily" placeholder="Ex: Fam&iacute;lia Silva" style="margin-top:4px;width:100%;padding:8px 12px;border:1.5px solid var(--gray-light);border-radius:var(--radius-sm);font-size:0.85rem;outline:none;font-family:'DM Sans',sans-serif">
     </div>
     <div class="modal-actions">
-      <button class="btn btn-outline btn-marsala" onclick="closeImport()">Cancelar</button>
-      <button class="btn btn-gold" onclick="doImport()">⬆ Importar</button>
+      <button class="btn btn-marsala btn-outline" onclick="closeImport()">Cancelar</button>
+      <button class="btn btn-gold" onclick="doImport()">&#11014; Importar</button>
     </div>
   </div>
 </div>
 
-<!-- CONFIG MODAL -->
-<div class="modal-overlay" id="configModal">
-  <div class="modal">
-    <h2>Sincronização Online</h2>
-    <p>Configure o GitHub Gist para salvar sua lista na nuvem. Os dados ficam seguros e sincronizados entre dispositivos.</p>
-    <div class="gist-config">
-      <label>Token do GitHub (com permissão de Gist)</label>
-      <input type="password" id="cfgToken" placeholder="ghp_..." value="">
-      <label>Gist ID (deixe vazio para criar um novo)</label>
-      <input type="text" id="cfgGistId" placeholder="abc123..." value="">
-      <div id="cfgStatus"></div>
-    </div>
-    <p style="font-size:0.75rem;color:var(--gray);margin-bottom:16px">
-      💡 Acesse <strong>github.com → Settings → Developer settings → Personal access tokens</strong> e gere um token com escopo <code>gist</code>.
-    </p>
-    <div class="modal-actions">
-      <button class="btn btn-outline btn-marsala" onclick="closeConfig()">Fechar</button>
-      <button class="btn btn-marsala" onclick="testGist()">Testar conexão</button>
-      <button class="btn btn-gold" onclick="saveConfig()">Salvar & Sincronizar</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
 // ═══════════════════════════════
-//  DATA MODEL
+//  JSONBIN CONFIG
 // ═══════════════════════════════
-let data = {
-  families: []
-};
-// family: { id, name, guests: [] }
-// guest:  { id, name, confirmed, invited, role: ''|'padrinho'|'madrinha'|'pai'|'mae' }
+const JSONBIN_MASTER_KEY = '$2a$10$H8/dbUWlIFxYwYbkKH/iwuYxlNFW1ycU9EmaWExCh7/XVeVCe1C3O';
+const JSONBIN_BIN_ID     = '69fba166c0954111d8e82c4d';
+const JSONBIN_BASE       = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
 
+// ═══════════════════════════════
+//  STATE
+// ═══════════════════════════════
+let data = { families: [] };
 let currentFilter = 'all';
-let gistToken = '';
-let gistId = '';
 let saveTimer = null;
 
 // ═══════════════════════════════
-//  STORAGE
+//  SYNC INDICATOR
+// ═══════════════════════════════
+function setSyncStatus(state, text) {
+  const dot   = document.getElementById('syncDot');
+  const label = document.getElementById('syncText');
+  dot.className = state;
+  label.textContent = text;
+}
+
+// ═══════════════════════════════
+//  JSONBIN — LOAD (GET latest)
+// ═══════════════════════════════
+async function loadCloud() {
+  setSyncStatus('syncing', 'Carregando...');
+  try {
+    const res = await fetch(JSONBIN_BASE + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    if (json.record && Array.isArray(json.record.families)) {
+      data = json.record;
+      saveLocal();
+    }
+    setSyncStatus('ok', 'Sincronizado');
+    return true;
+  } catch(e) {
+    setSyncStatus('err', 'Erro na nuvem');
+    console.warn('JSONBin load error:', e.message);
+    return false;
+  }
+}
+
+// ═══════════════════════════════
+//  JSONBIN — SAVE (PUT)
+// ═══════════════════════════════
+async function saveCloud(showToast) {
+  setSyncStatus('syncing', 'Salvando...');
+  try {
+    const res = await fetch(JSONBIN_BASE, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_MASTER_KEY
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    setSyncStatus('ok', 'Salvo na nuvem');
+    if (showToast) toast('Salvo na nuvem!');
+  } catch(e) {
+    setSyncStatus('err', 'Falha ao salvar');
+    if (showToast) toast('Erro ao salvar: ' + e.message);
+    console.warn('JSONBin save error:', e.message);
+  }
+}
+
+async function forceSync() {
+  await saveCloud(true);
+}
+
+// ═══════════════════════════════
+//  LOCAL CACHE
 // ═══════════════════════════════
 function loadLocal() {
   try {
     const raw = localStorage.getItem('ktGuests2027');
-    if (raw) data = JSON.parse(raw);
+    if (raw) { const d = JSON.parse(raw); if (d && d.families) data = d; }
   } catch(e) {}
 }
 
 function saveLocal() {
-  localStorage.setItem('ktGuests2027', JSON.stringify(data));
-  localStorage.setItem('ktGuestCfg', JSON.stringify({ gistToken, gistId }));
+  try { localStorage.setItem('ktGuests2027', JSON.stringify(data)); } catch(e) {}
 }
 
+// Debounce: salva local imediatamente, envia para nuvem após 1.5s de inatividade
 function scheduleSave() {
   saveLocal();
+  setSyncStatus('syncing', 'Aguardando...');
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(syncGist, 2000);
+  saveTimer = setTimeout(() => saveCloud(false), 1500);
 }
 
 // ═══════════════════════════════
-//  GIST SYNC
+//  CSV EXPORT
 // ═══════════════════════════════
-async function syncGist(showToast = false) {
-  if (!gistToken) return;
-  try {
-    const body = { files: { 'guests.json': { content: JSON.stringify(data, null, 2) } } };
-    let url = 'https://api.github.com/gists';
-    let method = 'POST';
-    if (gistId) { url += '/' + gistId; method = 'PATCH'; }
-
-    const res = await fetch(url, {
-      method,
-      headers: { 'Authorization': 'token ' + gistToken, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+function exportCSV() {
+  const rows = [['Familia','Nome','Confirmado','Convite Enviado','Papel']];
+  data.families.forEach(function(f) {
+    f.guests.forEach(function(g) {
+      rows.push(['"'+f.name+'"', '"'+g.name+'"', g.confirmed?'Sim':'Nao', g.invited?'Sim':'Nao', g.role||'Convidado']);
     });
-    if (!res.ok) throw new Error('Erro ' + res.status);
-    const json = await res.json();
-    if (!gistId) {
-      gistId = json.id;
-      saveLocal();
-      document.getElementById('cfgGistId').value = gistId;
-    }
-    if (showToast) toast('✓ Sincronizado com sucesso!');
-  } catch(e) {
-    if (showToast) toast('⚠ Erro ao sincronizar: ' + e.message);
-  }
-}
-
-async function loadGist() {
-  if (!gistToken || !gistId) return;
-  try {
-    const res = await fetch('https://api.github.com/gists/' + gistId, {
-      headers: { 'Authorization': 'token ' + gistToken }
-    });
-    if (!res.ok) throw new Error();
-    const json = await res.json();
-    const content = json.files['guests.json']?.content;
-    if (content) {
-      data = JSON.parse(content);
-      saveLocal();
-    }
-  } catch(e) {}
-}
-
-// ═══════════════════════════════
-//  CONFIG MODAL
-// ═══════════════════════════════
-function openConfig() {
-  document.getElementById('cfgToken').value = gistToken;
-  document.getElementById('cfgGistId').value = gistId;
-  document.getElementById('cfgStatus').innerHTML = '';
-  document.getElementById('configModal').classList.add('open');
-}
-function closeConfig() { document.getElementById('configModal').classList.remove('open'); }
-
-async function testGist() {
-  const token = document.getElementById('cfgToken').value.trim();
-  const id = document.getElementById('cfgGistId').value.trim();
-  const st = document.getElementById('cfgStatus');
-  st.innerHTML = '<div class="gist-status gist-loading">Testando...</div>';
-  try {
-    const url = id ? 'https://api.github.com/gists/' + id : 'https://api.github.com/gists';
-    const res = await fetch(url, { headers: { 'Authorization': 'token ' + token } });
-    if (!res.ok) throw new Error('Status ' + res.status);
-    st.innerHTML = '<div class="gist-status gist-ok">✓ Conexão OK!</div>';
-  } catch(e) {
-    st.innerHTML = '<div class="gist-status gist-err">✗ Erro: ' + e.message + '</div>';
-  }
-}
-
-async function saveConfig() {
-  gistToken = document.getElementById('cfgToken').value.trim();
-  gistId = document.getElementById('cfgGistId').value.trim();
-  saveLocal();
-  if (gistId) {
-    await loadGist();
-    renderGuests();
-    renderStats();
-  }
-  await syncGist(true);
-  closeConfig();
+  });
+  const csv = rows.map(function(r){return r.join(',');}).join('\n');
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'convidados-kamilly-tiago.csv';
+  a.click();
+  toast('CSV exportado!');
 }
 
 // ═══════════════════════════════
@@ -783,55 +390,18 @@ function closeImport() {
   document.getElementById('importText').value = '';
   document.getElementById('importFamily').value = '';
 }
-
 function doImport() {
   const raw = document.getElementById('importText').value;
   const familyName = document.getElementById('importFamily').value.trim() || 'Grupo importado';
-  if (!raw.trim()) { toast('⚠ Cole os nomes antes de importar.'); return; }
-
-  // Split by newlines and/or semicolons
-  const names = raw.split(/[\n;]+/)
-    .map(n => n.trim())
-    .filter(n => n.length > 0);
-
-  if (names.length === 0) { toast('⚠ Nenhum nome encontrado.'); return; }
-
-  const family = {
-    id: uid(),
-    name: familyName,
-    guests: names.map(n => ({ id: uid(), name: n, confirmed: false, invited: false, role: '' }))
-  };
-  data.families.push(family);
-  scheduleSave();
-  renderGuests();
-  renderStats();
-  closeImport();
-  toast(`✓ ${names.length} convidado(s) importado(s)!`);
-}
-
-// ═══════════════════════════════
-//  EXPORT CSV
-// ═══════════════════════════════
-function exportCSV() {
-  const rows = [['Família','Nome','Confirmado','Convite Enviado','Papel']];
-  data.families.forEach(f => {
-    f.guests.forEach(g => {
-      rows.push([
-        `"${f.name}"`,
-        `"${g.name}"`,
-        g.confirmed ? 'Sim' : 'Não',
-        g.invited ? 'Sim' : 'Não',
-        g.role || 'Convidado'
-      ]);
-    });
+  if (!raw.trim()) { toast('Cole os nomes antes de importar.'); return; }
+  const names = raw.split(/[\n;]+/).map(function(n){return n.trim();}).filter(function(n){return n.length>0;});
+  if (!names.length) { toast('Nenhum nome encontrado.'); return; }
+  data.families.push({
+    id: uid(), name: familyName,
+    guests: names.map(function(n){ return {id:uid(),name:n,confirmed:false,invited:false,role:''}; })
   });
-  const csv = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'convidados-kamilly-tiago.csv';
-  a.click();
-  toast('✓ CSV exportado!');
+  scheduleSave(); renderGuests(); renderStats(); closeImport();
+  toast(names.length + ' convidado(s) importado(s)!');
 }
 
 // ═══════════════════════════════
@@ -839,19 +409,18 @@ function exportCSV() {
 // ═══════════════════════════════
 function setFilter(f, el) {
   currentFilter = f;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
   el.classList.add('active');
   renderGuests();
 }
-
-function passesFilter(guest) {
-  if (currentFilter === 'all') return true;
-  if (currentFilter === 'confirmed') return guest.confirmed;
-  if (currentFilter === 'unconfirmed') return !guest.confirmed;
-  if (currentFilter === 'invited') return guest.invited;
-  if (currentFilter === 'notinvited') return !guest.invited;
-  if (currentFilter === 'padrinhos') return guest.role === 'padrinho' || guest.role === 'madrinha';
-  if (currentFilter === 'pais') return guest.role === 'pai' || guest.role === 'mae';
+function passesFilter(g) {
+  if (currentFilter==='all')         return true;
+  if (currentFilter==='confirmed')   return g.confirmed;
+  if (currentFilter==='unconfirmed') return !g.confirmed;
+  if (currentFilter==='invited')     return g.invited;
+  if (currentFilter==='notinvited')  return !g.invited;
+  if (currentFilter==='padrinhos')   return g.role==='padrinho'||g.role==='madrinha';
+  if (currentFilter==='pais')        return g.role==='pai'||g.role==='mae';
   return true;
 }
 
@@ -860,260 +429,189 @@ function passesFilter(guest) {
 // ═══════════════════════════════
 function renderGuests() {
   const search = document.getElementById('searchInput').value.toLowerCase();
-  const list = document.getElementById('guestList');
+  const list   = document.getElementById('guestList');
   let html = '';
 
-  data.families.forEach(family => {
-    const filtered = family.guests.filter(g => {
-      const matchSearch = !search || g.name.toLowerCase().includes(search) || family.name.toLowerCase().includes(search);
-      return matchSearch && passesFilter(g);
+  data.families.forEach(function(family) {
+    const filtered = family.guests.filter(function(g) {
+      const ms = !search || g.name.toLowerCase().includes(search) || family.name.toLowerCase().includes(search);
+      return ms && passesFilter(g);
     });
-    if (filtered.length === 0 && search) return;
-    if (filtered.length === 0 && currentFilter !== 'all') return;
+    if (!filtered.length && search) return;
+    if (!filtered.length && currentFilter!=='all') return;
 
-    const confirmed = family.guests.filter(g => g.confirmed).length;
-    const invited = family.guests.filter(g => g.invited).length;
-    const total = family.guests.length;
+    const confirmed = family.guests.filter(function(g){return g.confirmed;}).length;
+    const invited   = family.guests.filter(function(g){return g.invited;}).length;
+    const total     = family.guests.length;
 
-    html += `
-    <div class="family-group expanded" id="fam-${family.id}">
-      <div class="family-header" onclick="toggleFamily('${family.id}')">
-        <div class="family-toggle">▼</div>
-        <input class="family-name-input" value="${esc(family.name)}" 
-          onclick="event.stopPropagation()" 
-          onchange="renameFamily('${family.id}', this.value)"
-          title="Clique para renomear">
-        <div class="family-badges">
-          <span class="badge badge-total">${total} pessoa${total!==1?'s':''}</span>
-          ${confirmed > 0 ? `<span class="badge badge-confirmed">✓ ${confirmed}</span>` : ''}
-          ${invited > 0 ? `<span class="badge badge-invited">✉ ${invited}</span>` : ''}
-        </div>
-        <div class="family-actions" onclick="event.stopPropagation()">
-          <button class="btn btn-outline btn-sm btn-marsala" onclick="addGuestToFamily('${family.id}')">+ Convidado</button>
-          <button class="icon-btn icon-btn-red" onclick="deleteFamily('${family.id}')" title="Excluir família">✕</button>
-        </div>
-      </div>
-      <div class="guests-list" id="glist-${family.id}">`;
+    html += '<div class="family-group expanded" id="fam-'+family.id+'">'
+          + '<div class="family-header" onclick="toggleFamily(\''+family.id+'\')">'
+          + '<div class="family-toggle">&#9660;</div>'
+          + '<input class="family-name-input" value="'+esc(family.name)+'" onclick="event.stopPropagation()" onchange="renameFamily(\''+family.id+'\',this.value)">'
+          + '<div class="family-badges">'
+          + '<span class="badge badge-total">'+total+' pessoa'+(total!==1?'s':'')+'</span>'
+          + (confirmed>0?'<span class="badge badge-confirmed">'+confirmed+' conf.</span>':'')
+          + (invited>0?'<span class="badge badge-invited">'+invited+' conv.</span>':'')
+          + '</div>'
+          + '<div class="family-actions" onclick="event.stopPropagation()">'
+          + '<button class="btn btn-outline btn-sm btn-marsala" onclick="addGuestToFamily(\''+family.id+'\')">+ Convidado</button>'
+          + '<button class="icon-btn icon-btn-red" onclick="deleteFamily(\''+family.id+'\')" title="Excluir">&#10005;</button>'
+          + '</div></div>'
+          + '<div class="guests-list" id="glist-'+family.id+'">';
 
-    const displayGuests = filtered.length > 0 ? filtered : (currentFilter === 'all' && !search ? family.guests : []);
-
-    displayGuests.forEach(guest => {
-      const initials = guest.name.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
-      const roleTag = guest.role === 'padrinho' || guest.role === 'madrinha'
-        ? `<span class="tag tag-padrinho">💍 ${capFirst(guest.role)}</span>`
-        : guest.role === 'pai' || guest.role === 'mae'
-        ? `<span class="tag tag-pai">👨‍👩‍👧 ${capFirst(guest.role)}</span>`
+    const show = filtered.length>0 ? filtered : (currentFilter==='all'&&!search ? family.guests : []);
+    show.forEach(function(guest) {
+      const initials = guest.name.split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();
+      const roleTag = (guest.role==='padrinho'||guest.role==='madrinha')
+        ? '<span class="tag tag-padrinho">&#128141; '+capFirst(guest.role)+'</span>'
+        : (guest.role==='pai'||guest.role==='mae')
+        ? '<span class="tag tag-pai">'+capFirst(guest.role)+'</span>'
         : '';
 
-      html += `
-      <div class="guest-row" id="guest-${guest.id}">
-        <div class="guest-left">
-          <div class="guest-avatar">${initials}</div>
-          <div class="guest-info">
-            <div class="guest-name">
-              <input class="guest-name-input" value="${esc(guest.name)}" 
-                onchange="renameGuest('${family.id}','${guest.id}',this.value)"
-                title="Clique para editar">
-              ${roleTag}
-            </div>
-          </div>
-        </div>
-        <div class="guest-right">
-          <select class="role-select" onchange="setRole('${family.id}','${guest.id}',this.value)">
-            <option value="" ${!guest.role?'selected':''}>Convidado</option>
-            <option value="padrinho" ${guest.role==='padrinho'?'selected':''}>Padrinho</option>
-            <option value="madrinha" ${guest.role==='madrinha'?'selected':''}>Madrinha</option>
-            <option value="pai" ${guest.role==='pai'?'selected':''}>Pai do noivo</option>
-            <option value="mae" ${guest.role==='mae'?'selected':''}>Mãe do noivo</option>
-          </select>
-          <div class="toggle-wrap">
-            <span class="toggle-label">Confirmado</span>
-            <label class="toggle toggle-confirm">
-              <input type="checkbox" ${guest.confirmed?'checked':''} 
-                onchange="toggleConfirm('${family.id}','${guest.id}',this.checked)">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="toggle-wrap">
-            <span class="toggle-label">Convite</span>
-            <label class="toggle toggle-invite">
-              <input type="checkbox" ${guest.invited?'checked':''} 
-                onchange="toggleInvite('${family.id}','${guest.id}',this.checked)">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="guest-actions">
-            <button class="icon-btn icon-btn-red" onclick="deleteGuest('${family.id}','${guest.id}')" title="Remover">✕</button>
-          </div>
-        </div>
-      </div>`;
+      html += '<div class="guest-row" id="guest-'+guest.id+'">'
+            + '<div class="guest-left">'
+            + '<div class="guest-avatar">'+initials+'</div>'
+            + '<div class="guest-info"><div class="guest-name">'
+            + '<input class="guest-name-input" value="'+esc(guest.name)+'" onchange="renameGuest(\''+family.id+'\',\''+guest.id+'\',this.value)">'
+            + roleTag+'</div></div></div>'
+            + '<div class="guest-right">'
+            + '<select class="role-select" onchange="setRole(\''+family.id+'\',\''+guest.id+'\',this.value)">'
+            + '<option value=""'+((!guest.role)?' selected':'')+'">Convidado</option>'
+            + '<option value="padrinho"'+(guest.role==='padrinho'?' selected':'')+'">Padrinho</option>'
+            + '<option value="madrinha"'+(guest.role==='madrinha'?' selected':'')+'">Madrinha</option>'
+            + '<option value="pai"'+(guest.role==='pai'?' selected':'')+'">Pai do noivo</option>'
+            + '<option value="mae"'+(guest.role==='mae'?' selected':'')+'">M&atilde;e do noivo</option>'
+            + '</select>'
+            + '<div class="toggle-wrap"><span class="toggle-label">Confirmado</span>'
+            + '<label class="toggle toggle-confirm"><input type="checkbox"'+(guest.confirmed?' checked':'')+' onchange="toggleConfirm(\''+family.id+'\',\''+guest.id+'\',this.checked)"><span class="toggle-slider"></span></label></div>'
+            + '<div class="toggle-wrap"><span class="toggle-label">Convite</span>'
+            + '<label class="toggle toggle-invite"><input type="checkbox"'+(guest.invited?' checked':'')+' onchange="toggleInvite(\''+family.id+'\',\''+guest.id+'\',this.checked)"><span class="toggle-slider"></span></label></div>'
+            + '<div class="guest-actions"><button class="icon-btn icon-btn-red" onclick="deleteGuest(\''+family.id+'\',\''+guest.id+'\')" title="Remover">&#10005;</button></div>'
+            + '</div></div>';
     });
 
-    html += `
-        <div class="add-guest-row">
-          <input class="add-guest-input" id="newguest-${family.id}" placeholder="Nome do convidado..." 
-            onkeydown="if(event.key==='Enter')addGuestInline('${family.id}')">
-          <button class="btn btn-sm btn-gold" onclick="addGuestInline('${family.id}')">+ Adicionar</button>
-        </div>
-      </div>
-    </div>`;
+    html += '<div class="add-guest-row">'
+          + '<input class="add-guest-input" id="newguest-'+family.id+'" placeholder="Nome do convidado..." onkeydown="if(event.key===\'Enter\')addGuestInline(\''+family.id+'\')">'
+          + '<button class="btn btn-sm btn-gold" onclick="addGuestInline(\''+family.id+'\')">+ Adicionar</button>'
+          + '</div></div></div>';
   });
 
-  if (data.families.length === 0) {
-    html = `<div class="empty-state">
-      <span>💌</span>
-      <h3>Nenhum convidado ainda</h3>
-      <p>Importe sua lista ou adicione uma família para começar.</p>
-    </div>`;
+  if (!data.families.length) {
+    html = '<div class="empty-state"><span>&#128140;</span><h3>Nenhum convidado ainda</h3><p>Importe sua lista ou adicione uma fam&iacute;lia para come&ccedil;ar.</p></div>';
   }
-
   list.innerHTML = html;
 }
 
 function renderStats() {
-  let total = 0, confirmed = 0, invited = 0, padrinhos = 0;
-  data.families.forEach(f => {
-    f.guests.forEach(g => {
+  var total=0,confirmed=0,invited=0,padrinhos=0;
+  data.families.forEach(function(f){
+    f.guests.forEach(function(g){
       total++;
-      if (g.confirmed) confirmed++;
-      if (g.invited) invited++;
-      if (g.role === 'padrinho' || g.role === 'madrinha') padrinhos++;
+      if(g.confirmed) confirmed++;
+      if(g.invited) invited++;
+      if(g.role==='padrinho'||g.role==='madrinha') padrinhos++;
     });
   });
-  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-total').textContent     = total;
   document.getElementById('st-confirmed').textContent = confirmed;
-  document.getElementById('st-invited').textContent = invited;
+  document.getElementById('st-invited').textContent   = invited;
   document.getElementById('st-padrinhos').textContent = padrinhos;
-  document.getElementById('st-families').textContent = data.families.length;
+  document.getElementById('st-families').textContent  = data.families.length;
 }
 
 // ═══════════════════════════════
 //  ACTIONS
 // ═══════════════════════════════
-function toggleFamily(id) {
-  const el = document.getElementById('fam-' + id);
-  el.classList.toggle('expanded');
-}
+function toggleFamily(id) { document.getElementById('fam-'+id).classList.toggle('expanded'); }
 
 function addFamily() {
-  const name = prompt('Nome da família/grupo:');
-  if (!name || !name.trim()) return;
-  data.families.push({ id: uid(), name: name.trim(), guests: [] });
-  scheduleSave();
-  renderGuests();
-  renderStats();
+  var name = prompt('Nome da fam\u00edlia/grupo:');
+  if (!name||!name.trim()) return;
+  data.families.push({id:uid(),name:name.trim(),guests:[]});
+  scheduleSave(); renderGuests(); renderStats();
 }
 
-function renameFamily(familyId, newName) {
-  const f = findFamily(familyId);
-  if (f) { f.name = newName; scheduleSave(); renderStats(); }
+function renameFamily(fid, newName) {
+  var f=findFamily(fid); if(f){f.name=newName;scheduleSave();renderStats();}
 }
 
-function deleteFamily(familyId) {
-  if (!confirm('Excluir esta família e todos os seus convidados?')) return;
-  data.families = data.families.filter(f => f.id !== familyId);
-  scheduleSave();
-  renderGuests();
-  renderStats();
-  toast('Família removida.');
+function deleteFamily(fid) {
+  if (!confirm('Excluir esta fam\u00edlia e todos os seus convidados?')) return;
+  data.families=data.families.filter(function(f){return f.id!==fid;});
+  scheduleSave(); renderGuests(); renderStats(); toast('Fam\u00edlia removida.');
 }
 
-function addGuestInline(familyId) {
-  const input = document.getElementById('newguest-' + familyId);
-  const name = input.value.trim();
-  if (!name) return;
-  const f = findFamily(familyId);
-  if (!f) return;
-  f.guests.push({ id: uid(), name, confirmed: false, invited: false, role: '' });
-  scheduleSave();
-  renderGuests();
-  renderStats();
-  // refocus
-  setTimeout(() => {
-    const el = document.getElementById('newguest-' + familyId);
-    if (el) el.focus();
-  }, 50);
+function addGuestInline(fid) {
+  var input=document.getElementById('newguest-'+fid);
+  var name=input.value.trim(); if(!name) return;
+  var f=findFamily(fid); if(!f) return;
+  f.guests.push({id:uid(),name:name,confirmed:false,invited:false,role:''});
+  scheduleSave(); renderGuests(); renderStats();
+  setTimeout(function(){ var el=document.getElementById('newguest-'+fid); if(el) el.focus(); },50);
 }
 
-function addGuestToFamily(familyId) {
-  const el = document.getElementById('newguest-' + familyId);
-  if (el) el.focus();
+function addGuestToFamily(fid) {
+  var el=document.getElementById('newguest-'+fid); if(el) el.focus();
 }
 
-function renameGuest(familyId, guestId, newName) {
-  const g = findGuest(familyId, guestId);
-  if (g) { g.name = newName; scheduleSave(); }
+function renameGuest(fid,gid,newName) {
+  var g=findGuest(fid,gid); if(g){g.name=newName;scheduleSave();}
 }
 
-function deleteGuest(familyId, guestId) {
-  const f = findFamily(familyId);
-  if (!f) return;
-  f.guests = f.guests.filter(g => g.id !== guestId);
-  scheduleSave();
-  renderGuests();
-  renderStats();
+function deleteGuest(fid,gid) {
+  var f=findFamily(fid); if(!f) return;
+  f.guests=f.guests.filter(function(g){return g.id!==gid;});
+  scheduleSave(); renderGuests(); renderStats();
 }
 
-function toggleConfirm(familyId, guestId, val) {
-  const g = findGuest(familyId, guestId);
-  if (g) { g.confirmed = val; scheduleSave(); renderStats(); }
+function toggleConfirm(fid,gid,val) {
+  var g=findGuest(fid,gid); if(g){g.confirmed=val;scheduleSave();renderStats();}
 }
 
-function toggleInvite(familyId, guestId, val) {
-  const g = findGuest(familyId, guestId);
-  if (g) { g.invited = val; scheduleSave(); renderStats(); }
+function toggleInvite(fid,gid,val) {
+  var g=findGuest(fid,gid); if(g){g.invited=val;scheduleSave();renderStats();}
 }
 
-function setRole(familyId, guestId, role) {
-  const g = findGuest(familyId, guestId);
-  if (g) { g.role = role; scheduleSave(); renderGuests(); renderStats(); }
+function setRole(fid,gid,role) {
+  var g=findGuest(fid,gid); if(g){g.role=role;scheduleSave();renderGuests();renderStats();}
 }
 
 // ═══════════════════════════════
 //  HELPERS
 // ═══════════════════════════════
-function uid() { return Math.random().toString(36).slice(2,10); }
-function esc(s) { return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function capFirst(s) { return s ? s[0].toUpperCase() + s.slice(1) : ''; }
-function findFamily(id) { return data.families.find(f => f.id === id); }
-function findGuest(familyId, guestId) {
-  const f = findFamily(familyId);
-  return f ? f.guests.find(g => g.id === guestId) : null;
-}
+function uid()       { return Math.random().toString(36).slice(2,10); }
+function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function capFirst(s) { return s?s[0].toUpperCase()+s.slice(1):''; }
+function findFamily(id) { return data.families.find(function(f){return f.id===id;}); }
+function findGuest(fid,gid) { var f=findFamily(fid); return f?f.guests.find(function(g){return g.id===gid;}):null; }
 
 function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
 }
 
 // ═══════════════════════════════
 //  INIT
 // ═══════════════════════════════
 async function init() {
+  // 1. Carrega cache local para UI aparecer instantaneamente
   loadLocal();
-  try {
-    const cfg = JSON.parse(localStorage.getItem('ktGuestCfg') || '{}');
-    gistToken = cfg.gistToken || '';
-    gistId = cfg.gistId || '';
-    if (gistToken && gistId) {
-      await loadGist();
-    }
-  } catch(e) {}
-  document.getElementById('loadingOverlay').classList.add('hidden');
   renderGuests();
   renderStats();
+
+  // 2. Busca versão mais recente da nuvem
+  var ok = await loadCloud();
+  if (ok) { renderGuests(); renderStats(); }
+
+  document.getElementById('loadingOverlay').classList.add('hidden');
 }
 
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('open');
-  });
+document.querySelectorAll('.modal-overlay').forEach(function(o){
+  o.addEventListener('click', function(e){ if(e.target===o) o.classList.remove('open'); });
 });
 
 init();
 </script>
 </body>
-</html>  
+</html>
