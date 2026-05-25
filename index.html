@@ -533,6 +533,7 @@ function renderGuests() {
             <option value="mae"     ${guest.role==='mae'?'selected':''}>Mãe do noivo</option>
             <option value="mae"     ${guest.role==='mae'?'selected':''}>Mãe da noiva</option>
             <option value="pai"     ${guest.role==='pai'?'selected':''}>Pai da noiva</option>
+            <option value="pai"     ${guest.role==='dama'?'selected':''}>Dama</option>
           </select>
           <div class="toggle-wrap"><span class="toggle-label">Confirmado</span>
             <label class="toggle toggle-confirm"><input type="checkbox" ${guest.confirmed?'checked':''} onchange="toggleConfirm('${family.id}','${guest.id}',this.checked)"><span class="toggle-slider"></span></label>
