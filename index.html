@@ -514,8 +514,6 @@ function renderGuests() {
       const initials = guest.name.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
       const roleTag = (guest.role==='padrinho'||guest.role==='madrinha')
         ? `<span class="tag tag-padrinho">💍 ${capFirst(guest.role)}</span>`
-          : (guest.role==='dama'||guest.role==='dama')
-        ? `<span class="tag tag-dama"> ${capFirst(guest.role)}</span>`
         : (guest.role==='pai'||guest.role==='mae')
         ? `<span class="tag tag-pai">👨‍👩‍👧 ${capFirst(guest.role)}</span>` : '';
       html += `<div class="guest-row" id="guest-${guest.id}">
