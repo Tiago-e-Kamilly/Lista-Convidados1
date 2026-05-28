@@ -15,14 +15,29 @@ try {
   const { getFirestore, doc, setDoc, getDoc, onSnapshot }
     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
 
-  const firebaseConfig = {
-    apiKey:            "AIzaSyDdi4sELcv5mFr-hoekyhHfO35bq-XE5Lg",
-    authDomain:        "controle-de-gasto-c6e44.firebaseapp.com",
-    projectId:         "controle-de-gasto-c6e44",
-    storageBucket:     "controle-de-gasto-c6e44.firebasestorage.app",
-    messagingSenderId: "422180121411",
-    appId:             "1:422180121411:web:86de2596253a2c91625df6"
-  };
+  // ============================================================
+  //  🔥 SUBSTITUA PELOS DADOS DO SEU NOVO PROJETO FIREBASE
+  //     Console: https://console.firebase.google.com
+  //     Projeto → Configurações do projeto → Seus apps → SDK
+  // ============================================================
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDAdUNYC-UOMiS7qdIkH1NgcTX8E6P94r0",
+  authDomain: "lista-de-casamento-b5028.firebaseapp.com",
+  projectId: "lista-de-casamento-b5028",
+  storageBucket: "lista-de-casamento-b5028.firebasestorage.app",
+  messagingSenderId: "684117442887",
+  appId: "1:684117442887:web:add139897be590bc520c62"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+  // ============================================================
 
   const app  = initializeApp(firebaseConfig, "convidados");
   const auth = getAuth(app);
@@ -440,7 +455,6 @@ async function doLogout(){
 async function initApp(user){
   document.getElementById('ldr').querySelector('span').textContent='Carregando lista...';
 
-  // Badge do usuário
   const nm=user.email.split('@')[0];
   document.getElementById('u-av').textContent=nm[0].toUpperCase();
   document.getElementById('u-nm').textContent=nm;
@@ -448,11 +462,9 @@ async function initApp(user){
   const {doc,setDoc,getDoc,onSnapshot}=window._fb2;
   const ref=doc(window._db2,'convidados',user.uid);
 
-  // Verifica se já tem dados
   const snap=await getDoc(ref);
   if(!snap.exists()) await setDoc(ref,{guests:[]});
 
-  // Listener em tempo real — qualquer mudança aparece em todos dispositivos
   if(unsub)unsub();
   unsub=onSnapshot(ref,(s)=>{
     if(s.exists()){
@@ -479,7 +491,6 @@ async function save(){
     const user=window._auth2.currentUser;
     if(!user)return;
     await setDoc(doc(window._db2,'convidados',user.uid),{guests});
-    // dot('ok') será chamado pelo onSnapshot
   }catch(e){
     dot('err');
     toast('Erro ao salvar. Verifique sua conexão.');
@@ -614,7 +625,6 @@ function expCSV(){
   toast('✓ CSV exportado!');
 }
 
-// close modal on backdrop
 document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin();});
 
