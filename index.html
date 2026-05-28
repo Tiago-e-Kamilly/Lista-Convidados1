@@ -5,26 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Convidados · Kamilly & Tiago</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script type="module">
+try {
+  const { initializeApp }    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+  const { getFirestore, doc, setDoc, getDoc, onSnapshot }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDdi4sELcv5mFr-hoekyhHfO35bq-XE5Lg",
+    authDomain:        "controle-de-gasto-c6e44.firebaseapp.com",
+    projectId:         "controle-de-gasto-c6e44",
+    storageBucket:     "controle-de-gasto-c6e44.firebasestorage.app",
+    messagingSenderId: "422180121411",
+    appId:             "1:422180121411:web:86de2596253a2c91625df6"
+  };
+
+  const app  = initializeApp(firebaseConfig, "convidados");
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  window._auth2  = auth;
+  window._db2    = db;
+  window._fb2    = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot };
+
+  window.dispatchEvent(new Event('fb2-ready'));
+} catch(err) {
+  console.error('Firebase error:', err);
+  document.getElementById('ldr').classList.add('gone');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-error').textContent = '⚠ Erro ao carregar Firebase: ' + err.message;
+}
+</script>
+
 <style>
 :root {
-  --m:  #6B2737;
-  --ml: #8B3A4C;
-  --mp: #f7eef0;
-  --mm: #d4a0aa;
-  --g:  #C9A96E;
-  --gl: #e8d4b0;
-  --cr: #FAF7F2;
-  --dk: #1a1212;
-  --gr: #6b6060;
-  --gb: #e8e0df;
-  --wh: #ffffff;
-  --sh: 0 4px 20px rgba(107,39,55,.10);
-  --r:  14px;
-  --rs: 8px;
+  --m:#6B2737;--ml:#8B3A4C;--mp:#f7eef0;--mm:#d4a0aa;
+  --g:#C9A96E;--gl:#e8d4b0;--cr:#FAF7F2;--dk:#1a1212;
+  --gr:#6b6060;--gb:#e8e0df;--wh:#ffffff;
+  --sh:0 4px 20px rgba(107,39,55,.10);--r:14px;--rs:8px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{font-size:16px}
 body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--dk);min-height:100vh;overflow-x:hidden}
+
+/* LOGIN */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:var(--cr)}
+.login-card{background:var(--wh);border:1px solid var(--gb);border-radius:var(--r);padding:2.2rem 2rem;width:100%;max-width:390px;box-shadow:var(--sh)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:1.4rem}
+.login-logo-icon{width:42px;height:42px;background:var(--m);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gl);font-size:1.3rem}
+.login-logo span{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300}
+.login-logo span em{color:var(--m);font-style:italic}
+.login-sub{font-size:.8rem;color:var(--gr);margin-bottom:1.5rem;line-height:1.6}
+.tab-row{display:flex;border:1.5px solid var(--gb);border-radius:50px;overflow:hidden;margin-bottom:1.3rem}
+.tab-btn{flex:1;padding:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;border:none;background:var(--wh);color:var(--gr);transition:all .15s}
+.tab-btn.active{background:var(--m);color:var(--wh)}
+.fl{margin-bottom:12px}
+.fl label{display:block;font-size:.72rem;font-weight:600;color:var(--m);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.fl .iw{position:relative}
+.fl .iw i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gr);font-size:.82rem}
+.fl input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--gb);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;transition:border-color .2s;background:var(--wh);color:var(--dk)}
+.fl input:focus{border-color:var(--m)}
+.btn-login{width:100%;padding:11px;background:var(--m);color:var(--wh);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:8px;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-login:hover{opacity:.88}
+.btn-login:disabled{opacity:.55;cursor:not-allowed}
+.login-error{font-size:.78rem;color:#c0392b;text-align:center;margin-top:9px;min-height:16px}
+.login-info{font-size:.72rem;color:var(--gr);text-align:center;margin-top:12px;line-height:1.6}
+
+/* LOADER */
+#ldr{position:fixed;inset:0;background:rgba(26,18,18,.68);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--wh);backdrop-filter:blur(4px)}
+.sp{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--g);border-radius:50%;animation:sp .75s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#ldr.gone{display:none}
+
+/* APP */
+#app-screen{display:none}
 
 /* HEADER */
 header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(107,39,55,.35)}
@@ -34,27 +92,29 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 .brand h1 em{color:var(--gl);font-style:italic}
 .brand small{display:block;font-size:.6rem;opacity:.65;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
 .hact{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-
-/* BUTTONS */
-.btn{padding:8px 14px;border-radius:50px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .18s;white-space:nowrap;-webkit-appearance:none}
+.btn{padding:8px 14px;border-radius:50px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .18s;white-space:nowrap}
 .bg{background:transparent;color:var(--wh);border:1.5px solid rgba(255,255,255,.35)}
 .bg:hover{background:rgba(255,255,255,.12)}
 .bgo{background:var(--g);color:var(--dk)}
-.bgo:hover{background:#b8935a;transform:translateY(-1px)}
+.bgo:hover{background:#b8935a}
 .bm{background:var(--m);color:var(--wh)}
 .bm:hover{background:var(--ml)}
 .bsm{padding:7px 13px;font-size:.76rem}
-.btn:active{transform:scale(.97)}
 
-/* SYNC DOT */
+/* SYNC */
 #sd{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;background:#aaa;transition:background .4s;flex-shrink:0}
 #sd.ok{background:#4caf7d}
 #sd.err{background:#e74c3c}
 #sd.busy{background:var(--g);animation:pl .7s infinite alternate}
 @keyframes pl{to{opacity:.25}}
 
+/* USER BADGE */
+.ubadge{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:50px;background:rgba(255,255,255,.12);font-size:.72rem;cursor:pointer}
+.ubadge:hover{background:rgba(255,255,255,.2)}
+.uav{width:22px;height:22px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:var(--dk);font-size:.65rem;font-weight:700}
+
 /* STATS */
-.sbar{background:var(--wh);border-bottom:1px solid var(--gb);padding:9px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sbar{background:var(--wh);border-bottom:1px solid var(--gb);padding:9px 16px;overflow-x:auto}
 .si{max-width:1100px;margin:0 auto;display:flex;gap:14px;align-items:center;min-width:max-content}
 .st{display:flex;align-items:center;gap:6px}
 .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -64,58 +124,44 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 
 /* CONTAINER */
 .wrap{max-width:1100px;margin:0 auto;padding:18px 16px}
-
-/* TOOLBAR */
 .tb{background:var(--wh);border-radius:var(--r);padding:13px 16px;margin-bottom:16px;box-shadow:var(--sh);display:flex;gap:9px;flex-wrap:wrap;align-items:center}
 .sw{position:relative;flex:1;min-width:170px}
-.sw input{width:100%;padding:9px 14px 9px 35px;border:1.5px solid var(--gb);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;background:var(--cr);transition:border-color .2s;-webkit-appearance:none}
+.sw input{width:100%;padding:9px 14px 9px 35px;border:1.5px solid var(--gb);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;background:var(--cr);transition:border-color .2s}
 .sw input:focus{border-color:var(--m);background:var(--wh)}
 .si2{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gr);font-size:.82rem;pointer-events:none}
 .chips{display:flex;gap:5px;flex-wrap:wrap}
-.chip{padding:5px 12px;border-radius:50px;border:1.5px solid var(--gb);background:var(--wh);font-size:.73rem;cursor:pointer;transition:all .17s;font-family:'DM Sans',sans-serif;white-space:nowrap;-webkit-appearance:none}
+.chip{padding:5px 12px;border-radius:50px;border:1.5px solid var(--gb);background:var(--wh);font-size:.73rem;cursor:pointer;transition:all .17s;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .chip:hover{border-color:var(--m);color:var(--m)}
 .chip.on{background:var(--m);color:var(--wh);border-color:var(--m)}
 
-/* TABLE CARD */
+/* TABLE */
 .tc{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
-
-/* TABLE HEADER — desktop only */
 .th{display:grid;grid-template-columns:38px 1fr 140px 82px 82px 36px;gap:0;padding:9px 16px;background:var(--mp);border-bottom:1.5px solid var(--mm);font-size:.67rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--m);align-items:center}
 @media(max-width:680px){.th{display:none}}
-
-/* GUEST ROW — desktop */
 .gr{display:grid;grid-template-columns:38px 1fr 140px 82px 82px 36px;gap:0;align-items:center;padding:10px 16px;border-bottom:1px solid var(--gb);transition:background .13s;min-height:54px}
 .gr:last-child{border-bottom:none}
 .gr:hover{background:var(--cr)}
-
-/* GUEST ROW — mobile */
 @media(max-width:680px){
   .gr{display:flex;flex-direction:column;align-items:stretch;padding:12px 14px;gap:9px}
-  .g-av{width:32px;height:32px;font-size:.85rem}
   .g-top{display:flex;align-items:center;gap:10px}
   .g-top .g-av{flex-shrink:0}
   .g-top .g-nm{flex:1}
   .g-top .g-del{margin-left:auto}
   .g-bot{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  /* hide desktop toggle cols */
   .g-co,.g-iv{display:none!important}
-  /* show mobile inline toggles */
   .g-mob{display:flex!important;gap:16px;align-items:center}
 }
-
 .g-av{width:34px;height:34px;border-radius:50%;background:var(--mp);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--m);font-size:.92rem;flex-shrink:0;user-select:none}
-.g-nm input{font-size:.87rem;font-weight:500;color:var(--dk);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;font-family:'DM Sans',sans-serif;width:100%;padding:2px 3px;border-radius:4px;transition:border-color .2s,background .2s;-webkit-appearance:none}
+.g-nm input{font-size:.87rem;font-weight:500;color:var(--dk);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;font-family:'DM Sans',sans-serif;width:100%;padding:2px 3px;border-radius:4px;transition:border-color .2s,background .2s}
 .g-nm input:hover{border-bottom-color:var(--mm)}
 .g-nm input:focus{border-bottom-color:var(--m);background:var(--mp)}
-.rsel{font-size:.73rem;padding:4px 6px;border:1.5px solid var(--gb);border-radius:var(--rs);outline:none;font-family:'DM Sans',sans-serif;cursor:pointer;background:var(--wh);color:var(--dk);width:132px;transition:border-color .2s;-webkit-appearance:none}
+.rsel{font-size:.73rem;padding:4px 6px;border:1.5px solid var(--gb);border-radius:var(--rs);outline:none;font-family:'DM Sans',sans-serif;cursor:pointer;background:var(--wh);color:var(--dk);width:132px;transition:border-color .2s}
 .rsel:focus{border-color:var(--m)}
 .rp{border-color:#f0c040!important;background:#fffbea!important}
 .rm{border-color:#f0c040!important;background:#fffbea!important}
 .rd{border-color:#e29fbe!important;background:#fdf0f6!important}
 .rpa{border-color:#90b8f8!important;background:#eef4ff!important}
 .rma{border-color:#90b8f8!important;background:#eef4ff!important}
-
-/* toggle cells */
 .g-co,.g-iv{display:flex;justify-content:center;align-items:center;flex-direction:column;gap:3px}
 .tcl{font-size:.58rem;color:var(--gr);text-transform:uppercase;letter-spacing:.5px}
 .tog{position:relative;width:38px;height:21px;flex-shrink:0}
@@ -125,18 +171,15 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 .tog input:checked+.tsl{background:var(--m)}
 .tog input:checked+.tsl:before{transform:translateX(17px)}
 .ti input:checked+.tsl{background:#2980b9}
-
-/* mobile toggles row */
 .g-mob{display:none;gap:14px;align-items:center}
 .mt{display:flex;align-items:center;gap:6px}
 .mt .tcl{font-size:.68rem}
-
 .g-del button{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.7rem;background:#fde8e8;color:#c0392b;transition:all .18s}
-.g-del button:hover,.g-del button:active{background:#c0392b;color:var(--wh)}
+.g-del button:hover{background:#c0392b;color:var(--wh)}
 
 /* ADD ROW */
 .ar{display:flex;gap:8px;padding:11px 16px;background:var(--cr);border-top:1.5px dashed var(--mm);flex-wrap:wrap;align-items:center}
-.ar input{flex:1;min-width:150px;padding:9px 12px;border:1.5px solid var(--gb);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s;-webkit-appearance:none;background:var(--wh)}
+.ar input{flex:1;min-width:150px;padding:9px 12px;border:1.5px solid var(--gb);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s;background:var(--wh)}
 .ar input:focus{border-color:var(--m)}
 
 /* EMPTY */
@@ -145,47 +188,31 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 .emp h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--m);margin-bottom:4px}
 .emp p{font-size:.82rem}
 
-/* OVERLAY + MODAL */
-.ov{display:none;position:fixed;inset:0;background:rgba(26,18,18,.58);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(26,18,18,.58);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .ov.on{display:flex}
-.mo{background:var(--wh);border-radius:var(--r);padding:26px 24px;max-width:480px;width:100%;box-shadow:0 12px 48px rgba(107,39,55,.2);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mo{background:var(--wh);border-radius:var(--r);padding:26px 24px;max-width:480px;width:100%;box-shadow:0 12px 48px rgba(107,39,55,.2);max-height:92vh;overflow-y:auto}
 .mo h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--m);margin-bottom:4px}
 .mo .sub{font-size:.8rem;color:var(--gr);margin-bottom:18px;line-height:1.5}
 .fi{margin-bottom:13px}
 .fi label{display:block;font-size:.74rem;font-weight:600;color:var(--m);margin-bottom:4px}
-.fi input,.fi textarea{width:100%;padding:9px 11px;border:1.5px solid var(--gb);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
-.fi input:focus,.fi textarea:focus{border-color:var(--m)}
-.fi textarea{height:150px;resize:vertical}
+.fi textarea{width:100%;padding:9px 11px;border:1.5px solid var(--gb);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;height:150px;resize:vertical}
+.fi textarea:focus{border-color:var(--m)}
 .hint{font-size:.72rem;color:var(--g);margin-top:4px}
 .mf{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
-.sb{border-radius:var(--rs);padding:8px 11px;font-size:.76rem;margin-top:9px}
-.sok{background:#d4edda;color:#155724}
-.ser{background:#f8d7da;color:#721c24}
-.sbu{background:var(--gl);color:#7a5c1e}
 
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dk);color:var(--wh);padding:11px 20px;border-radius:50px;font-size:.8rem;z-index:999;opacity:0;transition:all .28s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:90vw;text-align:center}
 #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 
-/* LOADER */
-#ldr{position:fixed;inset:0;background:rgba(26,18,18,.68);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--wh);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-.sp{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--g);border-radius:50%;animation:sp .75s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-#ldr.gone{display:none}
-
-/* PRINT */
 @media print{
   header,.sbar,.tb,.ar,.g-del,#ldr,.ov,#toast,.hact{display:none!important}
   .gr{padding:6px 10px;min-height:auto}
   .tog{display:none}
   .rsel{border:none;background:transparent;font-weight:600;padding:0}
   .tc{box-shadow:none;border:1px solid #ccc}
-  body{background:white}
-  .wrap{padding:0}
-  .th{display:grid!important}
+  body{background:white}.wrap{padding:0}.th{display:grid!important}
 }
-
-/* Scrollbar thin on mobile */
 ::-webkit-scrollbar{height:4px;width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--mm);border-radius:4px}
@@ -193,70 +220,112 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 </head>
 <body>
 
-<div id="ldr"><div class="sp"></div><span style="font-size:.85rem;opacity:.8">Carregando lista...</span></div>
+<!-- LOADER -->
+<div id="ldr"><div class="sp"></div><span style="font-size:.85rem;opacity:.8">Conectando...</span></div>
 
-<header>
-  <div class="hi">
-    <div class="brand">
-      <span style="color:var(--gl);font-size:1.1rem">♡</span>
-      <div>
-        <h1>Kamilly <em>&</em> Tiago</h1>
-        <small>Lista de Convidados · 20 Nov 2027</small>
+<!-- LOGIN -->
+<div id="login-screen" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">♡</div>
+      <span>Kamilly <em>&</em> Tiago</span>
+    </div>
+    <p class="login-sub">Acesse a lista de convidados de qualquer dispositivo, sincronizada em tempo real.</p>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Entrar</button>
+      <button class="tab-btn" id="tab-reg" onclick="switchTab('register')">Criar conta</button>
+    </div>
+    <div class="fl">
+      <label>E-mail</label>
+      <div class="iw">
+        <i>✉</i>
+        <input type="email" id="l-email" placeholder="seu@email.com" autocomplete="email">
       </div>
     </div>
-    <div class="hact">
-      <span id="syncLabel" style="font-size:.72rem;opacity:.7;color:var(--gl)"></span>
-      <span id="sd"></span>
-      <button class="btn bg" onclick="openImp()">⬆ Importar</button>
-      <button class="btn bg" onclick="window.print()">🖨 Imprimir</button>
-      <button class="btn bgo" onclick="expCSV()">⬇ CSV</button>
+    <div class="fl">
+      <label>Senha</label>
+      <div class="iw">
+        <i>🔒</i>
+        <input type="password" id="l-pass" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+      </div>
     </div>
-  </div>
-</header>
-
-<div class="sbar">
-  <div class="si">
-    <div class="st"><span class="sdot" style="background:var(--m)"></span><span class="slb">Total</span>&nbsp;<span class="svl" id="s0">0</span></div>
-    <div class="sdv"></div>
-    <div class="st"><span class="sdot" style="background:#27ae60"></span><span class="slb">Confirmados</span>&nbsp;<span class="svl" id="s1">0</span></div>
-    <div class="sdv"></div>
-    <div class="st"><span class="sdot" style="background:#2980b9"></span><span class="slb">Convite enviado</span>&nbsp;<span class="svl" id="s2">0</span></div>
-    <div class="sdv"></div>
-    <div class="st"><span class="sdot" style="background:#f0c040"></span><span class="slb">Padrinhos</span>&nbsp;<span class="svl" id="s3">0</span></div>
-    <div class="sdv"></div>
-    <div class="st"><span class="sdot" style="background:#e29fbe"></span><span class="slb">Damas</span>&nbsp;<span class="svl" id="s4">0</span></div>
+    <button class="btn-login" id="l-btn" onclick="doLogin()">
+      <span id="l-btn-label">Entrar</span>
+    </button>
+    <div class="login-error" id="login-error"></div>
+    <p class="login-info">Dados sincronizados instantaneamente entre PC, celular e tablet.</p>
   </div>
 </div>
 
-<div class="wrap">
-  <div class="tb">
-    <div class="sw">
-      <span class="si2">🔍</span>
-      <input type="search" id="q" placeholder="Buscar convidado..." oninput="render()">
+<!-- APP -->
+<div id="app-screen">
+  <header>
+    <div class="hi">
+      <div class="brand">
+        <span style="color:var(--gl);font-size:1.1rem">♡</span>
+        <div>
+          <h1>Kamilly <em>&</em> Tiago</h1>
+          <small>Lista de Convidados · 20 Nov 2027</small>
+        </div>
+      </div>
+      <div class="hact">
+        <span id="syncLabel" style="font-size:.72rem;opacity:.7;color:var(--gl)"></span>
+        <span id="sd"></span>
+        <button class="btn bg" onclick="openImp()">⬆ Importar</button>
+        <button class="btn bg" onclick="window.print()">🖨 Imprimir</button>
+        <button class="btn bgo" onclick="expCSV()">⬇ CSV</button>
+        <div class="ubadge" onclick="doLogout()" title="Sair">
+          <div class="uav" id="u-av">?</div>
+          <span id="u-nm">Sair</span>
+        </div>
+      </div>
     </div>
-    <div class="chips" id="chips">
-      <button class="chip on" onclick="setF('all',this)">Todos</button>
-      <button class="chip" onclick="setF('conf',this)">✓ Confirmados</button>
-      <button class="chip" onclick="setF('nconf',this)">⏳ Não conf.</button>
-      <button class="chip" onclick="setF('inv',this)">✉ Com convite</button>
-      <button class="chip" onclick="setF('ninv',this)">📭 Sem convite</button>
-      <button class="chip" onclick="setF('pad',this)">💍 Padrinhos</button>
-      <button class="chip" onclick="setF('dama',this)">🌸 Damas</button>
-      <button class="chip" onclick="setF('pais',this)">👨‍👩‍👧 Pais</button>
+  </header>
+
+  <div class="sbar">
+    <div class="si">
+      <div class="st"><span class="sdot" style="background:var(--m)"></span><span class="slb">Total</span>&nbsp;<span class="svl" id="s0">0</span></div>
+      <div class="sdv"></div>
+      <div class="st"><span class="sdot" style="background:#27ae60"></span><span class="slb">Confirmados</span>&nbsp;<span class="svl" id="s1">0</span></div>
+      <div class="sdv"></div>
+      <div class="st"><span class="sdot" style="background:#2980b9"></span><span class="slb">Convite enviado</span>&nbsp;<span class="svl" id="s2">0</span></div>
+      <div class="sdv"></div>
+      <div class="st"><span class="sdot" style="background:#f0c040"></span><span class="slb">Padrinhos</span>&nbsp;<span class="svl" id="s3">0</span></div>
+      <div class="sdv"></div>
+      <div class="st"><span class="sdot" style="background:#e29fbe"></span><span class="slb">Damas</span>&nbsp;<span class="svl" id="s4">0</span></div>
     </div>
   </div>
 
-  <div class="tc">
-    <div class="th">
-      <div></div><div>Nome</div><div>Papel</div>
-      <div style="text-align:center">Confirmado</div>
-      <div style="text-align:center">Convite</div>
-      <div></div>
+  <div class="wrap">
+    <div class="tb">
+      <div class="sw">
+        <span class="si2">🔍</span>
+        <input type="search" id="q" placeholder="Buscar convidado..." oninput="render()">
+      </div>
+      <div class="chips">
+        <button class="chip on" onclick="setF('all',this)">Todos</button>
+        <button class="chip" onclick="setF('conf',this)">✓ Confirmados</button>
+        <button class="chip" onclick="setF('nconf',this)">⏳ Não conf.</button>
+        <button class="chip" onclick="setF('inv',this)">✉ Com convite</button>
+        <button class="chip" onclick="setF('ninv',this)">📭 Sem convite</button>
+        <button class="chip" onclick="setF('pad',this)">💍 Padrinhos</button>
+        <button class="chip" onclick="setF('dama',this)">🌸 Damas</button>
+        <button class="chip" onclick="setF('pais',this)">👨‍👩‍👧 Pais</button>
+      </div>
     </div>
-    <div id="gl"></div>
-    <div class="ar">
-      <input type="text" id="nn" placeholder="Nome do convidado..." onkeydown="if(event.key==='Enter')addG()">
-      <button class="btn bgo bsm" onclick="addG()">＋ Adicionar</button>
+
+    <div class="tc">
+      <div class="th">
+        <div></div><div>Nome</div><div>Papel</div>
+        <div style="text-align:center">Confirmado</div>
+        <div style="text-align:center">Convite</div>
+        <div></div>
+      </div>
+      <div id="gl"></div>
+      <div class="ar">
+        <input type="text" id="nn" placeholder="Nome do convidado..." onkeydown="if(event.key==='Enter')addG()">
+        <button class="btn bgo bsm" onclick="addG()">＋ Adicionar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -267,7 +336,7 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
     <h2>Importar Convidados</h2>
     <p class="sub">Um nome por linha, ou separados por ponto e vírgula. Perfeito para colar uma coluna do Excel.</p>
     <div class="fi">
-      <textarea id="impTxt" placeholder="João Silva&#10;Maria Oliveira&#10;Pedro Santos&#10;&#10;Ou: João; Maria; Pedro"></textarea>
+      <textarea id="impTxt" placeholder="João Silva&#10;Maria Oliveira&#10;Pedro Santos"></textarea>
       <div class="hint">💡 No Excel: selecione a coluna, Ctrl+C e cole aqui.</div>
     </div>
     <div class="mf">
@@ -280,20 +349,12 @@ header{background:var(--m);color:var(--wh);position:sticky;top:0;z-index:100;box
 <div id="toast"></div>
 
 <script>
-// ─── CONFIGURAÇÃO JSONBIN (chaves embutidas) ───
-const MASTER_KEY = '$2a$10$H8/dbUWlIFxYwYbkKH/iwuYxlNFW1ycU9EmaWExCh7/XVeVCe1C3O';
-const ACCESS_KEY = '$2a$10$bguEx8F19aF2zlpVgouqLesJIfJhkfgoZux3BL4l5/YpfdLptAuNG';
-const BIN_NAME   = 'KT-Convidados-2027';
-const LS_BIN     = 'kt_binId_v2';
-const LS_DATA    = 'kt_guests_v2';
-
-// ─── STATE ───
-let guests = [];
-let filt   = 'all';
-let binId  = localStorage.getItem(LS_BIN) || '';
-let saving = false;
-let dirty  = false;
-let saveQ  = null;
+// ── STATE ──
+let guests   = [];
+let filt     = 'all';
+let unsub    = null;
+let saveQ    = null;
+let curTab   = 'login';
 
 const ROLES = {
   ''       :{ label:'Convidado',     cls:''   },
@@ -304,91 +365,134 @@ const ROLES = {
   mae      :{ label:'Mãe da noiva',  cls:'rma'},
 };
 
-// ─── DOT ───
-function dot(s){ // ok | err | busy | off
-  const d = document.getElementById('sd');
-  const l = document.getElementById('syncLabel');
-  d.className = s==='ok'?'ok':s==='err'?'err':s==='busy'?'busy':'';
+// ── UTILS ──
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function esc(s){ return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function toast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3000);
+}
+function dot(s){
+  const d=document.getElementById('sd');
+  const l=document.getElementById('syncLabel');
+  d.className=s==='ok'?'ok':s==='err'?'err':s==='busy'?'busy':'';
   if(s==='ok')  l.textContent='Salvo ✓';
   if(s==='err') l.textContent='Erro ao salvar';
   if(s==='busy')l.textContent='Salvando...';
-  if(s==='off') l.textContent='Sem internet?';
 }
 
-// ─── LOCAL ───
-function saveLocal(){ try{ localStorage.setItem(LS_DATA, JSON.stringify(guests)); }catch(e){} }
-function loadLocal(){
-  try{ const r=localStorage.getItem(LS_DATA); if(r) guests=JSON.parse(r); }catch(e){ guests=[]; }
+// ── AUTH ──
+function switchTab(tab){
+  curTab=tab;
+  document.getElementById('tab-login').classList.toggle('active',tab==='login');
+  document.getElementById('tab-reg').classList.toggle('active',tab==='register');
+  document.getElementById('l-btn-label').textContent=tab==='login'?'Entrar':'Criar conta';
+  document.getElementById('login-error').textContent='';
 }
 
-// ─── JSONBIN ───
-async function createBin(){
-  const res = await fetch('https://api.jsonbin.io/v3/b',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'X-Master-Key': MASTER_KEY,
-      'X-Bin-Name':   BIN_NAME,
-      'X-Bin-Private':'true'
-    },
-    body: JSON.stringify({ guests })
-  });
-  if(!res.ok) throw new Error('Criar bin: HTTP '+res.status);
-  const j = await res.json();
-  binId = j.metadata?.id || '';
-  if(binId) localStorage.setItem(LS_BIN, binId);
-  return binId;
-}
-
-async function pushBin(){
-  if(saving){ dirty=true; return; }
-  saving=true; dot('busy');
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pass =document.getElementById('l-pass').value;
+  const err  =document.getElementById('login-error');
+  const btn  =document.getElementById('l-btn');
+  err.textContent='';
+  if(!email||!pass){err.textContent='Preencha e-mail e senha.';return;}
+  btn.disabled=true;
+  btn.innerHTML='<span>Aguarde...</span>';
+  const {signInWithEmailAndPassword,createUserWithEmailAndPassword}=window._fb2;
   try{
-    if(!binId) await createBin();
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}`,{
-      method:'PUT',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Master-Key': MASTER_KEY
-      },
-      body: JSON.stringify({ guests })
-    });
-    if(!res.ok) throw new Error('PUT: HTTP '+res.status);
-    dot('ok');
-    if(dirty){ dirty=false; saving=false; await pushBin(); return; }
-  }catch(e){
-    dot('err');
-    console.error('JSONBin push error:', e);
-  }
-  saving=false;
-}
-
-async function pullBin(){
-  if(!binId) return false;
-  try{
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{
-      headers:{ 'X-Master-Key': MASTER_KEY, 'X-Access-Key': ACCESS_KEY }
-    });
-    if(!res.ok) throw new Error('GET: HTTP '+res.status);
-    const j = await res.json();
-    if(Array.isArray(j.record?.guests)){
-      guests = j.record.guests;
-      saveLocal();
-      return true;
+    if(curTab==='login'){
+      await signInWithEmailAndPassword(window._auth2,email,pass);
+    } else {
+      await createUserWithEmailAndPassword(window._auth2,email,pass);
     }
   }catch(e){
-    console.error('JSONBin pull error:', e);
+    err.textContent=fbErr(e.code);
+    btn.disabled=false;
+    btn.innerHTML='<span id="l-btn-label">'+(curTab==='login'?'Entrar':'Criar conta')+'</span>';
   }
-  return false;
+}
+
+function fbErr(code){
+  return({
+    'auth/invalid-email':'E-mail inválido.',
+    'auth/user-not-found':'Usuário não encontrado.',
+    'auth/wrong-password':'Senha incorreta.',
+    'auth/invalid-credential':'E-mail ou senha incorretos.',
+    'auth/email-already-in-use':'E-mail já cadastrado.',
+    'auth/weak-password':'Senha fraca (mínimo 6 caracteres).',
+    'auth/too-many-requests':'Muitas tentativas. Aguarde.',
+    'auth/network-request-failed':'Sem conexão.',
+  })[code]||'Erro: '+code;
+}
+
+async function doLogout(){
+  if(!confirm('Sair da conta?'))return;
+  if(unsub)unsub();
+  await window._fb2.signOut(window._auth2);
+  guests=[];
+  document.getElementById('app-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+}
+
+// ── INIT APP ──
+async function initApp(user){
+  document.getElementById('ldr').querySelector('span').textContent='Carregando lista...';
+
+  // Badge do usuário
+  const nm=user.email.split('@')[0];
+  document.getElementById('u-av').textContent=nm[0].toUpperCase();
+  document.getElementById('u-nm').textContent=nm;
+
+  const {doc,setDoc,getDoc,onSnapshot}=window._fb2;
+  const ref=doc(window._db2,'convidados',user.uid);
+
+  // Verifica se já tem dados
+  const snap=await getDoc(ref);
+  if(!snap.exists()) await setDoc(ref,{guests:[]});
+
+  // Listener em tempo real — qualquer mudança aparece em todos dispositivos
+  if(unsub)unsub();
+  unsub=onSnapshot(ref,(s)=>{
+    if(s.exists()){
+      guests=s.data().guests||[];
+      dot('ok');
+      render();
+      stats();
+    }
+  },(e)=>{
+    dot('err');
+    console.error(e);
+  });
+
+  document.getElementById('ldr').classList.add('gone');
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+}
+
+// ── SAVE ──
+async function save(){
+  dot('busy');
+  try{
+    const {doc,setDoc}=window._fb2;
+    const user=window._auth2.currentUser;
+    if(!user)return;
+    await setDoc(doc(window._db2,'convidados',user.uid),{guests});
+    // dot('ok') será chamado pelo onSnapshot
+  }catch(e){
+    dot('err');
+    toast('Erro ao salvar. Verifique sua conexão.');
+    console.error(e);
+  }
 }
 
 function scheduleSave(){
-  saveLocal();
   clearTimeout(saveQ);
-  saveQ = setTimeout(pushBin, 1200);
+  saveQ=setTimeout(save,800);
 }
 
-// ─── FILTER ───
+// ── FILTER ──
 function setF(f,el){
   filt=f;
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
@@ -406,27 +510,19 @@ function pass(g){
   return true;
 }
 
-// ─── RENDER ───
+// ── RENDER ──
 function render(){
-  const q = (document.getElementById('q').value||'').toLowerCase();
-  const vis = guests.filter(g=>pass(g)&&(!q||g.name.toLowerCase().includes(q)));
-  const el  = document.getElementById('gl');
-
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const vis=guests.filter(g=>pass(g)&&(!q||g.name.toLowerCase().includes(q)));
+  const el=document.getElementById('gl');
   if(!vis.length){
-    el.innerHTML=`<div class="emp">
-      <span>${guests.length?'🔍':'💌'}</span>
-      <h3>${guests.length?'Nenhum resultado':'Lista vazia'}</h3>
-      <p>${guests.length?'Tente outro filtro.':'Adicione convidados abaixo ou importe do Excel.'}</p>
-    </div>`;
+    el.innerHTML=`<div class="emp"><span>${guests.length?'🔍':'💌'}</span><h3>${guests.length?'Nenhum resultado':'Lista vazia'}</h3><p>${guests.length?'Tente outro filtro.':'Adicione convidados abaixo ou importe do Excel.'}</p></div>`;
     return;
   }
-
-  el.innerHTML = vis.map(g=>{
-    const ini = g.name.trim().split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
-    const rc  = ROLES[g.role]?.cls||'';
-    const opts= Object.entries(ROLES).map(([v,r])=>
-      `<option value="${v}"${g.role===v?' selected':''}>${r.label}</option>`
-    ).join('');
+  el.innerHTML=vis.map(g=>{
+    const ini=g.name.trim().split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+    const rc=ROLES[g.role]?.cls||'';
+    const opts=Object.entries(ROLES).map(([v,r])=>`<option value="${v}"${g.role===v?' selected':''}>${r.label}</option>`).join('');
     return `
 <div class="gr" id="gr${g.id}">
   <div class="g-top">
@@ -439,35 +535,17 @@ function render(){
   <div class="g-bot" style="padding-left:42px">
     <select class="rsel ${rc}" onchange="role('${g.id}',this.value)">${opts}</select>
     <div class="g-mob">
-      <div class="mt">
-        <span class="tcl">Confirmado</span>
-        <label class="tog">
-          <input type="checkbox" ${g.confirmed?'checked':''} onchange="tog('${g.id}','confirmed',this.checked)">
-          <span class="tsl"></span>
-        </label>
-      </div>
-      <div class="mt">
-        <span class="tcl">Convite</span>
-        <label class="tog ti">
-          <input type="checkbox" ${g.invited?'checked':''} onchange="tog('${g.id}','invited',this.checked)">
-          <span class="tsl"></span>
-        </label>
-      </div>
+      <div class="mt"><span class="tcl">Confirmado</span><label class="tog"><input type="checkbox" ${g.confirmed?'checked':''} onchange="tog('${g.id}','confirmed',this.checked)"><span class="tsl"></span></label></div>
+      <div class="mt"><span class="tcl">Convite</span><label class="tog ti"><input type="checkbox" ${g.invited?'checked':''} onchange="tog('${g.id}','invited',this.checked)"><span class="tsl"></span></label></div>
     </div>
   </div>
   <div class="g-co" style="display:flex;justify-content:center;align-items:center;flex-direction:column;gap:3px">
     <span class="tcl">Confirmado</span>
-    <label class="tog">
-      <input type="checkbox" ${g.confirmed?'checked':''} onchange="tog('${g.id}','confirmed',this.checked)">
-      <span class="tsl"></span>
-    </label>
+    <label class="tog"><input type="checkbox" ${g.confirmed?'checked':''} onchange="tog('${g.id}','confirmed',this.checked)"><span class="tsl"></span></label>
   </div>
   <div class="g-iv" style="display:flex;justify-content:center;align-items:center;flex-direction:column;gap:3px">
     <span class="tcl">Convite</span>
-    <label class="tog ti">
-      <input type="checkbox" ${g.invited?'checked':''} onchange="tog('${g.id}','invited',this.checked)">
-      <span class="tsl"></span>
-    </label>
+    <label class="tog ti"><input type="checkbox" ${g.invited?'checked':''} onchange="tog('${g.id}','invited',this.checked)"><span class="tsl"></span></label>
   </div>
 </div>`;
   }).join('');
@@ -488,7 +566,7 @@ function stats(){
   document.getElementById('s4').textContent=d;
 }
 
-// ─── ACTIONS ───
+// ── ACTIONS ──
 function addG(){
   const inp=document.getElementById('nn');
   const n=inp.value.trim();
@@ -498,33 +576,26 @@ function addG(){
   scheduleSave();render();stats();
   setTimeout(()=>inp.focus(),30);
 }
-
 function ren(id,v){
   const g=guests.find(x=>x.id===id);
   if(g){g.name=v;scheduleSave();}
 }
-
 function tog(id,f,v){
   const g=guests.find(x=>x.id===id);
   if(g){g[f]=v;scheduleSave();stats();}
 }
-
 function role(id,v){
   const g=guests.find(x=>x.id===id);
   if(g){g.role=v;scheduleSave();render();stats();}
 }
-
 function del(id){
   guests=guests.filter(x=>x.id!==id);
   scheduleSave();render();stats();
 }
 
-// ─── IMPORT ───
+// ── IMPORT ──
 function openImp(){document.getElementById('impMo').classList.add('on');}
-function closeImp(){
-  document.getElementById('impMo').classList.remove('on');
-  document.getElementById('impTxt').value='';
-}
+function closeImp(){document.getElementById('impMo').classList.remove('on');document.getElementById('impTxt').value='';}
 function doImp(){
   const raw=document.getElementById('impTxt').value;
   const names=raw.split(/[\n;]+/).map(s=>s.trim()).filter(Boolean);
@@ -534,49 +605,31 @@ function doImp(){
   toast(`✓ ${names.length} convidado(s) importado(s)!`);
 }
 
-// ─── EXPORT ───
+// ── EXPORT ──
 function expCSV(){
   const rows=[['Nome','Papel','Confirmado','Convite Enviado']];
-  guests.forEach(g=>rows.push([
-    `"${g.name}"`,ROLES[g.role]?.label||'Convidado',
-    g.confirmed?'Sim':'Não',g.invited?'Sim':'Não'
-  ]));
+  guests.forEach(g=>rows.push([`"${g.name}"`,ROLES[g.role]?.label||'Convidado',g.confirmed?'Sim':'Não',g.invited?'Sim':'Não']));
   const b=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\n')],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download='convidados-kt-2027.csv';a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='convidados-kt-2027.csv';a.click();
   toast('✓ CSV exportado!');
 }
 
-// ─── UTILS ───
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-function toast(m){
-  const t=document.getElementById('toast');
-  t.textContent=m;t.classList.add('on');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3000);
-}
+// close modal on backdrop
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin();});
 
-// close overlay on backdrop
-document.querySelectorAll('.ov').forEach(o=>
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
-
-// ─── INIT ───
-async function init(){
-  loadLocal();
-  dot('busy');
-  const pulled = await pullBin();
-  if(!pulled && !binId){
-    // First time — create bin with any existing local data
-    try{ await createBin(); dot('ok'); }
-    catch(e){ dot('err'); }
-  }
-  document.getElementById('ldr').classList.add('gone');
-  render();
-  stats();
-  if(pulled) dot('ok');
-}
-
-init();
+// ── FIREBASE READY ──
+window.addEventListener('fb2-ready',()=>{
+  const {onAuthStateChanged}=window._fb2;
+  onAuthStateChanged(window._auth2,async(user)=>{
+    if(user){
+      await initApp(user);
+    } else {
+      document.getElementById('ldr').classList.add('gone');
+      document.getElementById('login-screen').style.display='flex';
+    }
+  });
+});
 </script>
 </body>
 </html>
